@@ -1,6 +1,9 @@
+data
 traffic-signs-data
 .ipynb_checkpoints
 *.h5
 models
 *.swp
 *.p
+lenet.*
+checkpoint

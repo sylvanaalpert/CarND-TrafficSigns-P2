@@ -5,5 +5,5 @@ traffic-signs-data
 models
 *.swp
 *.p
-mynet.*
 checkpoint
+*/.DS_Store

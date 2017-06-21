@@ -6,4 +6,4 @@ models
 *.swp
 *.p
 checkpoint
-*/.DS_Store
+.DS_Store

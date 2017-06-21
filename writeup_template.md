@@ -1,20 +1,8 @@
 #**Traffic Sign Recognition** 
 
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+##By Sylvana Alpert
 
 ---
-
-**Build a Traffic Sign Recognition Project**
-
-The goals / steps of this project are the following:
-* Load the data set (see below for links to the project data set)
-* Explore, summarize and visualize the data set
-* Design, train and test a model architecture
-* Use the model to make predictions on new images
-* Analyze the softmax probabilities of the new images
-* Summarize the results with a written report
 
 
 [//]: # (Image References)
@@ -28,59 +16,55 @@ The goals / steps of this project are the following:
 [image7]: ./examples/placeholder.png "Traffic Sign 4"
 [image8]: ./examples/placeholder.png "Traffic Sign 5"
 
-## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
-
 ---
-###Writeup / README
 
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
-
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+The goal of this project was to build a traffic sign classifier using convolutional neural networks and apply it to the German Traffic Sign Data Set. The classifier was built using TensorFlow and the code can be found [here](https://github.com/sylvanaalpert/CarND-TrafficSigns-P2/blob/master/Traffic_Sign_Classifier.ipynb).
 
 ###Data Set Summary & Exploration
 
-####1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+The data set contains 32x32 color images of 43 different types of signs. Here's a summary of the data set properties: 
 
-I used the pandas library to calculate summary statistics of the traffic
-signs data set:
+* The size of training set is 34799
+* The size of the validation set is 4410
+* The size of test set is 12630
+* The shape of a traffic sign image is 32x32
+* The number of unique classes/labels in the data set is 43
 
-* The size of training set is ?
-* The size of the validation set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
-
-####2. Include an exploratory visualization of the dataset.
-
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+As shown below, the classes in the training, validation and testing sets are not balanced. The images below contain histograms of the 
+class labels in each set: 
 
 ![alt text][image1]
 
+Some randomly picked example images are shown below:
+
+![alt text][image1]
+
+We can see that there is a large variation in the images average values, with some being very dark and some very bright. We will have to correct this during preprocessing by performing histogram equalization. 
+
+
 ###Design and Test a Model Architecture
 
-####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+Given the class imbalance described earlier, I decided to perform data augmentations of the less represented classes. To do so, I used affine trasformations of each image until the number of examples in the class reached the maximum number of examples for a class in the data set. Color transformations were not used because color information has significance in traffic signs. Similarly, flipping images up/down or left/right was avoided since the orientation of the images is also meaningful. With that in mind, when doing affine transformations, the rotation angle was limited to the range of [-20, 20] to avoid drastic changes in the directions of arrows in the images. 
+Here is an example of an image that was randomly transformed using affine transformations: 
+![alt text][image2]
 
-As a first step, I decided to convert the images to grayscale because ...
+Following data augmentations, the image data was preprocessed with these steps: 
+#. High pass filter to sharpen the image (implemented by subtracting a blurred version of the image)
+#. Histogram equalization to improve the contrast
+#. Normalize values to range of [-0.5, 0.5] to achieve zero mean
 
-Here is an example of a traffic sign image before and after grayscaling.
+
+Here are three examples of traffic signs before and after pre-processing.
 
 ![alt text][image2]
 
-As a last step, I normalized the image data because ...
 
-I decided to generate additional data because ... 
+I started to experiment with the LeNet model, as implemented during the LeNet lesson. That model did not perform sufficiently well and therefore, I decided to make the following modifications: 
 
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
-
-
-####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+#. Add a convolutional layer to increase the networks depth and allow it to learn finer features. 
+#. Expanded the number of filters per convolutional layer.
+#. Changed the padding type used in convolutional layers to SAME, to prevent the observed region in an image from becoming too small too quickly.
+#. Added dropout layers after convolutional layers to prevent overfitting
 
 My final model consisted of the following layers:
 
@@ -165,7 +149,5 @@ For the first image, the model is relatively sure that this is a stop sign (prob
 
 For the second image ... 
 
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
 

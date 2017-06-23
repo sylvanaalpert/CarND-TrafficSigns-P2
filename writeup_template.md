@@ -71,51 +71,50 @@ My final model consisted of the following layers:
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x32 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
- 
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x32 	|
+| RELU					|												|
+| Dropout				|												|
+| Max pooling	      	| 2x2 size, 2x2 stride,  outputs 16x16x32 		|
+| Convolution 3x3	    | 1x1 stride, same padding, outputs 16x16x64	|
+| RELU					|												|
+| Dropout				|												|
+| Max pooling	      	| 2x2 size, 2x2 stride,  outputs 8x8x64 		|
+| Convolution 3x3	    | 1x1 stride, same padding, outputs 8x8x128		|
+| RELU					|												|
+| Dropout				|												|
+| Max pooling	      	| 2x2 size, 2x2 stride,  outputs 4x4x128 		|
+| Fully connected		| Outputs 2*2*128x1								|
+| RELU					|												|
+| Fully connected		| Outputs 43x1									|
+| Softmax				| 	        									|
 
 
-####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
+The model was trained over 15 epochs, with a batch size of 128. I experimented with the learning rate, and found a value of 0.001 to work best. As learnt during the lesson, the mean softmax cross entropy between logits and labels was used as a loss function. In addition, the Adam optimizer was chosen due to its exponentially decaying learning rate. 
 
-####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
+
+In order to get the validation accuracy to be at least 0.93, an iterative process was taken. I started by adapting the LeNet model to accept RGB images and output the right number of classes. Later on, after noticing hte low accuracy measurements, the number of filters on each convolutional layers was progressively expanded until further expansion did not provide any benefit. In addition, an extra convolutional layer without any dowsampling was added as the first layer to increase the network's depth and allow the network to learn about more non-linearities. Fully conected layers were also expanded to contain more filters than the LeNet architecture, to allow for the more linear combinations of the larger number of features computed in previous layers. At this point, the test set accuracy was already above the 0.93 requirement, however, I decided to add some dropout layers with a keep probability of 0.8 to avoid overfitting the data and improve performance on any new images fed through the network. 
 
 My final model results were:
 * training set accuracy of ?
 * validation set accuracy of ? 
 * test set accuracy of ?
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+Convolution layers are very suitable for this kind of problem since there exist different levels of hierarchy in the traffic signs with different information in it (such as color, shape, orientation and specific sign content). To allow a network to learn about these features at different levels of complexity, a network needs to have a sufficiently deep architecture (numerous layers). The approach here was guided by trial and error and any changes in the architecture that produced a better outcome were kept while negative changes were reversed. Here, the addition of a single convolution layer was enough to achieve the target accuracy.  
  
 
 ###Test a Model on New Images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+Five German traffic signs found on the web were used to further test the model. 
 
-Here are five German traffic signs that I found on the web:
+Here are traffic signs selected from the web:
 
 ![alt text][image4] ![alt text][image5] ![alt text][image6] 
 ![alt text][image7] ![alt text][image8]
 
-The first image might be difficult to classify because ...
+The first three images were selected because of their similar shape and color. They differ on the small contents of the sign and could be used to briefly test the ability of the network to discern small details. The fourth image was expected to be easy to classify due to its distict look from other signs in the data set. The fifth image was selected to test how well the network could identify the numbers on the sign and match them to the appropriate label. 
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -123,11 +122,11 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Children crossing    	| Stop sign   									| 
+| Road work   			| U-turn 										|
+| Bicycle crossing		| Yield											|
+| No entry	      		| Bumpy Road					 				|
+| 60 km/h 				| Slippery Road      							|
 
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...

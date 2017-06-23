@@ -5,5 +5,8 @@ traffic-signs-data
 models
 *.swp
 *.p
+*.index
+*.meta
+*.data-00000-of-00001
 checkpoint
 .DS_Store

@@ -100,9 +100,9 @@ The model was trained over 15 epochs, with a batch size of 128. I experimented w
 In order to get the validation accuracy to be at least 0.93, an iterative process was taken. I started by adapting the LeNet model to accept RGB images and output the right number of classes. Later on, after noticing hte low accuracy measurements, the number of filters on each convolutional layers was progressively expanded until further expansion did not provide any benefit. In addition, an extra convolutional layer without any dowsampling was added as the first layer to increase the network's depth and allow the network to learn about more non-linearities. Fully conected layers were also expanded to contain more filters than the LeNet architecture, to allow for the more linear combinations of the larger number of features computed in previous layers. At this point, the test set accuracy was already above the 0.93 requirement, however, I decided to add some dropout layers with a keep probability of 0.8 to avoid overfitting the data and improve performance on any new images fed through the network. 
 
 My final model results were:
-* training set accuracy of 0.996
-* validation set accuracy of 0.944
-* test set accuracy of 0.930
+* training set accuracy of 0.997
+* validation set accuracy of 0.959
+* test set accuracy of 0.948
 
 The high training set accuracy and lower test accuracy suggest that the model is overfitting the data in the training set and there are further improvements to do. 
 
@@ -120,38 +120,26 @@ Here are traffic signs selected from the web:
 
 The first three images were selected because of their similar shape and color. They differ on the small contents of the sign and could be used to briefly test the ability of the network to discern small details. The fourth image was expected to be easy to classify due to its distict look from other signs in the data set. The fifth image was selected to test how well the network could identify the numbers on the sign and match them to the appropriate label. 
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
-
 Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Children crossing    	| Children crossing   							| 
 | Road work   			| Road work										|
-| Bicycle crossing		| Bumpy road									|
+| Bicycle crossing		| Bicycles crossing								|
 | No entry	      		| No entry						 				|
-| 60 km/h 				| 120 km/h 		      							|
+| 60 km/h 				| No vehicles 	      							|
 
 
-The model was able to correctly guess 3 of the 5 traffic signs, which gives an accuracy of 60%. This compares unfavorably to the accuracy on the test set of which was always above 93%. 
-
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This is comparable to the accuracy on the test set, given the size of this new testing set (5). 
 
 The top 5 softmax probabilities for each image were calculated are plotted below. 
 The code for making predictions on my final model is located in the 3th cell of Step 3 of the Ipython notebook.
 
-For images 1, 2 and 4, the model is relatively sure its predictions, which have a probability of approximately 0.75.  and the image does contain a stop sign. The top five soft max probabilities were
+For images 1, 3 and 4, the model is correct and relatively sure its predictions, which have a probability of over 0.8.  For image 2, the model makes the right prediction, although the certainty decreases. We can see that in that case, the contents in black get confused with the contents of "Road narrows to the right". The prediction for the last sign is predicted with high certainty but it wrong, as the sign gets confused with a "No vehicles" sign, which is a round sign, with red border but no image inside it. 
+From the observations from these 5 signs, we can conclude that the model is not properly learning the finer components of the sign images and would benefit from a deeper architecture. 
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
-
-
-For the second image ... 
+![alt text][image8]
 
 
 

@@ -87,6 +87,8 @@ My final model consisted of the following layers:
 | Max pooling	      	| 2x2 size, 2x2 stride,  outputs 4x4x128 		|
 | Fully connected		| Outputs 2*2*128x1								|
 | RELU					|												|
+| Fully connected		| Outputs 2*2*128x1								|
+| RELU					|												|
 | Fully connected		| Outputs 43x1									|
 | Softmax				| 	        									|
 
@@ -98,9 +100,11 @@ The model was trained over 15 epochs, with a batch size of 128. I experimented w
 In order to get the validation accuracy to be at least 0.93, an iterative process was taken. I started by adapting the LeNet model to accept RGB images and output the right number of classes. Later on, after noticing hte low accuracy measurements, the number of filters on each convolutional layers was progressively expanded until further expansion did not provide any benefit. In addition, an extra convolutional layer without any dowsampling was added as the first layer to increase the network's depth and allow the network to learn about more non-linearities. Fully conected layers were also expanded to contain more filters than the LeNet architecture, to allow for the more linear combinations of the larger number of features computed in previous layers. At this point, the test set accuracy was already above the 0.93 requirement, however, I decided to add some dropout layers with a keep probability of 0.8 to avoid overfitting the data and improve performance on any new images fed through the network. 
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 0.996
+* validation set accuracy of 0.944
+* test set accuracy of 0.930
+
+The high training set accuracy and lower test accuracy suggest that the model is overfitting the data in the training set and there are further improvements to do. 
 
 Convolution layers are very suitable for this kind of problem since there exist different levels of hierarchy in the traffic signs with different information in it (such as color, shape, orientation and specific sign content). To allow a network to learn about these features at different levels of complexity, a network needs to have a sufficiently deep architecture (numerous layers). The approach here was guided by trial and error and any changes in the architecture that produced a better outcome were kept while negative changes were reversed. Here, the addition of a single convolution layer was enough to achieve the target accuracy.  
  
@@ -122,20 +126,21 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Children crossing    	| Stop sign   									| 
-| Road work   			| U-turn 										|
-| Bicycle crossing		| Yield											|
-| No entry	      		| Bumpy Road					 				|
-| 60 km/h 				| Slippery Road      							|
+| Children crossing    	| Children crossing   							| 
+| Road work   			| Road work										|
+| Bicycle crossing		| Bumpy road									|
+| No entry	      		| No entry						 				|
+| 60 km/h 				| 120 km/h 		      							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 3 of the 5 traffic signs, which gives an accuracy of 60%. This compares unfavorably to the accuracy on the test set of which was always above 93%. 
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The top 5 softmax probabilities for each image were calculated are plotted below. 
+The code for making predictions on my final model is located in the 3th cell of Step 3 of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+For images 1, 2 and 4, the model is relatively sure its predictions, which have a probability of approximately 0.75.  and the image does contain a stop sign. The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 

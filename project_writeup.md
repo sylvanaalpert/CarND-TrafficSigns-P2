@@ -89,9 +89,9 @@ My final model consisted of the following layers:
 | RELU					|												|
 | Dropout				|												|
 | Max pooling	      	| 2x2 size, 2x2 stride,  outputs 4x4x128 		|
-| Fully connected		| Outputs 2*2*128x1								|
+| Fully connected		| Outputs 512x1								|
 | RELU					|												|
-| Fully connected		| Outputs 2*2*128x1								|
+| Fully connected		| Outputs 512x1								|
 | RELU					|												|
 | Fully connected		| Outputs 43x1									|
 | Softmax				| 	        									|
@@ -101,7 +101,7 @@ My final model consisted of the following layers:
 The model was trained over 15 epochs, with a batch size of 128. I experimented with the learning rate, and found a value of 0.001 to work best. As learnt during the lesson, the mean softmax cross entropy between logits and labels was used as a loss function. In addition, the Adam optimizer was chosen due to its exponentially decaying learning rate.
 
 
-In order to get the validation accuracy to be at least 0.93, an iterative process was taken. I started by adapting the LeNet model to accept RGB images and output the right number of classes. Later on, after noticing the low accuracy measurements, the number of filters on each convolutional layers was progressively expanded until further expansion did not provide any benefit. In addition, an extra convolutional layer without any downsampling was added as the first layer to increase the network's depth and allow the network to better learn non-linearities. Fully connected layers were also expanded to contain more filters than the LeNet architecture, to allow for more linear combinations of the larger number of features computed in previous layers. At this point, the test set accuracy was already above the 0.93 requirement, however, I decided to add some dropout layers with a keep probability of 0.8 to avoid overfitting the data and improve performance on any new images fed through the network.
+In order to get the validation accuracy to be at least 0.93, an iterative process was taken. I started by adapting the LeNet model to accept RGB images and output the right number of classes. Later on, after noticing the low accuracy measurements, the number of filters on each convolutional layer was progressively expanded until further expansion did not provide any benefit. In addition, an extra convolutional layer without any downsampling was added as the first layer to increase the network's depth and allow the network to better learn non-linearities. Fully connected layers were also expanded to contain more filters than the LeNet architecture, to allow for more linear combinations of the larger number of features computed in previous layers. At this point, the test set accuracy was already above the 0.93 requirement, however, I decided to add some dropout layers with a keep probability of 0.8 to avoid overfitting the data and improve performance on any new images fed through the network.
 
 My final model results were:
 * training set accuracy of 0.997
@@ -136,10 +136,10 @@ Here are the results of the prediction:
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This is comparable to the accuracy on the test set, given the size of this new testing set (5).
 
-The top 5 softmax probabilities for each image were calculated are plotted below.
+The top 5 softmax probabilities for each image were calculated and are plotted below.
 The code for making predictions on my final model is located in the 3th cell of Step 3 of the Ipython notebook.
 
-For images 1, 3 and 4, the model is correct and relatively sure its predictions, which have a probability of over 0.8.  For image 2, the model makes the right prediction, although the certainty decreases. We can see that in that case, the contents in black get confused with the contents of "Road narrows to the right". The prediction for the last sign is predicted with high certainty but it wrong, as the sign gets confused with a "No vehicles" sign, which is a round sign, with red border but no image inside it.
+For images 1, 3 and 4, the model is correct and relatively certain of its predictions, which have a probability of over 0.8.  For image 2, the model makes the right prediction, although the certainty decreases. We can see that in that case, the contents in black get confused with the contents of "Road narrows to the right", a sign with the same triangular shape and colors. The prediction for the last sign is predicted with high certainty but it is wrong, as the sign gets confused with a "No vehicles" sign, which is a round sign, with red border but no image inside it.
 From the observations from these 5 signs, we can conclude that the model is not properly learning the finer components of the sign images and would benefit from a deeper architecture.
 
 ![alt text][image8]

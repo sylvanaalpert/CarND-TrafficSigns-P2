@@ -121,7 +121,7 @@ Here are traffic signs selected from the web:
 
 ![alt text][image7]
 
-The first three images were selected because of their similar shape and color. They differ on the small contents of the sign and could be used to briefly test the ability of the network to discern small details. The fourth image was expected to be easy to classify due to its distict look from other signs in the data set. The fifth image was selected to test how well the network could identify the numbers on the sign and match them to the appropriate label.
+The first three images were selected because of their similar shape and color. They differ on the small contents of the sign and could be used to briefly test the ability of the network to discern small details. The fourth image was expected to be easy to classify due to its distinct look from other signs in the data set. The fifth image was selected to test how well the network could identify the numbers on the sign and match them to the appropriate label.
 
 Here are the results of the prediction:
 
@@ -129,7 +129,7 @@ Here are the results of the prediction:
 |:---------------------:|:---------------------------------------------:|
 | Children crossing    	| Children crossing   							|
 | Road work   			| Road work										|
-| Bicycle crossing		| Bicycles crossing								|
+| Bicycles crossing		| Bicycles crossing								|
 | No entry	      		| No entry						 				|
 | 60 km/h 				| No vehicles 	      							|
 
